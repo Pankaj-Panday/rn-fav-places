@@ -3,6 +3,7 @@
     "name": "fav-places",
     "slug": "fav-places",
     "version": "1.0.0",
+    "jsEngine": "hermes",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -24,6 +25,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Camera access is required to capture photos of places and enhance your experience inside the app."
+        }
+      ]
+    ]
   }
 }
