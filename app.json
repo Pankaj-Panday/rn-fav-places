@@ -32,7 +32,8 @@
         {
           "cameraPermission": "Camera access is required to capture photos of places and enhance your experience inside the app."
         }
-      ]
+      ],
+      "expo-sqlite"
     ]
   }
 }

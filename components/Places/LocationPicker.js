@@ -5,23 +5,19 @@ import {
   getCurrentPositionAsync,
   PermissionStatus,
   useForegroundPermissions,
+  reverseGeocodeAsync,
 } from "expo-location";
 import { useEffect, useState } from "react";
-import {
-  useIsFocused,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { WebView } from "react-native-webview";
 
-export default function LocationPicker() {
+export default function LocationPicker({ onSelectLocation, route }) {
   const [pickedLocation, setPickedLocation] = useState();
   const isFocused = useIsFocused();
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
 
   const navigation = useNavigation();
-  const route = useRoute();
 
   async function verifyPermissions() {
     if (
@@ -66,6 +62,25 @@ export default function LocationPicker() {
       setPickedLocation(mapPickedLocation);
     }
   }, [route.params, isFocused]);
+
+  useEffect(() => {
+    async function getAddress() {
+      if (!pickedLocation) return;
+
+      const addressArray = await reverseGeocodeAsync({
+        latitude: pickedLocation.lat,
+        longitude: pickedLocation.lng,
+      });
+
+      const address = addressArray[0];
+      onSelectLocation({
+        ...pickedLocation,
+        address: address.formattedAddress,
+      });
+    }
+
+    getAddress();
+  }, [pickedLocation]);
 
   let locationPreview = (
     <View style={styles.placeholder}>

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Colors } from "../../contants/colors";
 import OutlinedButton from "../Ui/OutlinedButton";
 
-export default function ImagePicker() {
+export default function ImagePicker({ onSelectImage }) {
   const [pickedImage, setPickedImage] = useState();
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
@@ -43,6 +43,7 @@ export default function ImagePicker() {
 
     if (!image.canceled) {
       setPickedImage(image.assets[0].uri);
+      onSelectImage(image.assets[0].uri);
     }
   }
 
